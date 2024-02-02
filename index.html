@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object Detection and Recipe Suggestion</title>
+    <!-- Add any additional CSS or stylesheets here -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            border: 2px solid #ccc; /* Add border property */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #343a40;
+            color: #fff;
+            text-align: center;
+            padding: 1em;
+        }
+
+        main {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .content-container {
+            max-width: 600px;
+            width: 100%;
+            padding: 2em;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            text-align: center;
+            margin-top: 2em;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        label {
+            background-color: #007bff;
+            color: #fff;
+            padding: 0.8em 1.5em;
+            cursor: pointer;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            margin-bottom: 1em; /* Add margin-bottom for the gap */
+        }
+
+        label:hover {
+            background-color: #0056b3;
+        }
+
+        #submit-btn {
+            background-color: #28a745;
+            color: #fff;
+            padding: 0.8em 1.5em;
+            border: none;
+            cursor: pointer;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        #submit-btn:hover {
+            background-color: #218838;
+        }
+
+        #result {
+            margin-top: 2em;
+            background-color: #f0f0f0;
+            padding: 1em;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        .error {
+            color: #dc3545;
+            margin-top: 0.5em;
+        }
+
+        #selected-image {
+            max-width: 100%;
+            margin-top: 1em;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            text-align: center;
+            padding: 1em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Object Detection and Recipe Suggestion</h1>
+    </header>
+
+    <main>
+        <div class="content-container">
+            <form action="/process_image" method="post" enctype="multipart/form-data">
+                <label for="image">Choose an image</label>
+                <br>
+                <input type="file" id="image" name="image" accept="image/*" onchange="displayImage(this)" required>
+                <br>
+                <button id="submit-btn" type="submit">Get Recipe Suggestions</button>
+            </form>
+
+            <img id="selected-image" alt="Selected Image" style="display: none;">
+
+            <div id="result">
+                <!-- The result will be displayed here -->
+                {{ error }}
+                {{ reply }}
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Object Detection and Recipe Suggestion</p>
+    </footer>
+
+    <script>
+        function displayImage(input) {
+            var file = input.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('selected-image').src = e.target.result;
+                    document.getElementById('selected-image').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+</body>
+</html>

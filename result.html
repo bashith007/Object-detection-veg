@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object Detection and Recipe Suggestion</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            margin: 20px;
+            text-align: center;
+            background-color: #e0f7fa;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Updated styles for the heading */
+        .heading-box h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #4caf50; /* Change the color to green */
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #4caf50; /* Keep the color green */
+        }
+
+        .heading-box {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            background-color: #aed581;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 8px;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            margin-top: 0;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .result-box {
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        .error-message {
+            color: #ff0000;
+            font-weight: bold;
+        }
+
+        .predicted-image {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Add any additional styles for the caption */
+        figcaption {
+            margin-top: 10px;
+            font-style: italic;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Updated heading color -->
+        <div class="heading-box">
+            <h1>Object Detection and Recipe Suggestion</h1>
+        </div>
+
+        {% if error %}
+            <p class="error-message">{{ error }}</p>
+        {% else %}
+            <div class="result-box">
+                <!-- "Predicted Image" section at the top -->
+                <div class="heading-box">
+                    <h2>Predicted Image:</h2>
+                </div>
+                <figure>
+                    <img class="predicted-image" src="{{ url_for('static', filename='predictions/predictions.jpg') }}" alt="Predicted Image">
+                    <figcaption>Caption for the Predicted Image</figcaption>
+                </figure>
+
+                <div class="heading-box">
+                    <h2>Detected Objects:</h2>
+                </div>
+                <ul>
+                    {% for obj in object_list %}
+                        <li>{{ obj }}</li>
+                    {% endfor %}
+                </ul>
+
+                <div class="heading-box">
+                    <h2>Recipe Suggestions:</h2>
+                </div>
+                <ul>
+                    {% for suggestion in reply.split('\n') %}
+                        {% if suggestion %}
+                            <li>{{ suggestion }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
